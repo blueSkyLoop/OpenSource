@@ -4971,9 +4971,8 @@ IMP lookUpImpOrForward(Class cls, SEL sel, id inst,
             goto done;
         }
     }
-
+/******************************* 查找第三步 尝试在父类里查找method ,遍历一层一层往上找 *******************************************************************/
     // Try superclass caches and method lists.
-    // 尝试在父类里查找method ,遍历一层一层往上找
     {
         unsigned attempts = unreasonableClassCount();
         for (Class curClass = cls->superclass;
@@ -4987,6 +4986,7 @@ IMP lookUpImpOrForward(Class cls, SEL sel, id inst,
             }
             
             // Superclass cache.
+            // 父类 cache 查找方法
             imp = cache_getImp(curClass, sel);
             if (imp) {
                 if (imp != (IMP)_objc_msgForward_impcache) {
@@ -5014,7 +5014,7 @@ IMP lookUpImpOrForward(Class cls, SEL sel, id inst,
 
     // No implementation found. Try method resolver once.
     //  重点 ： 当方法通过漫长的过程都没有找到的话，那就进行动态解析
-    //  一开始 triedResolver = NO ,后面赋值为 YES ，证明这个方法只会调用一次
+    //  一开始 triedResolver = NO ,后面赋值为 YES ，证明这个 判断 只会走一次
     // 类方法的查找 -- 汇编
     // 找老爸类方法
     // 动态方法解析
