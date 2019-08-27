@@ -833,7 +833,7 @@ struct class_rw_t {
     // Be warned that Symbolication knows the layout of this structure.
     uint32_t flags;
     uint32_t version;
-
+    // 这里还有一层
     const class_ro_t *ro;
 
     // 三胞胎
@@ -925,7 +925,7 @@ private:
     }
 
 public:
-
+    // 重点结构在这里
     class_rw_t* data() {
         return (class_rw_t *)(bits & FAST_DATA_MASK);
     }
@@ -1116,7 +1116,7 @@ public:
 
 
 struct objc_class : objc_object {
-    // Class ISA; // 8 bit
+    // Class ISA; // 8 bit 隐藏了ISA
     Class superclass; // 8 bit
     /*
      每一个类都会有一个 cache,用于存储 SEL、 IMP,
